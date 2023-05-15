@@ -12,8 +12,8 @@ const newUsuario = {
     ...objetoEjemplo
 };
 
-console.log({objetoEjemplo});
-console.log({newUsuario});
+// console.log({objetoEjemplo});
+// console.log({newUsuario});
 
 // spread con numero max
 // const numeros = [1 ,2 ,3 ,4 ,5, 15, 28, 39 ,23 ]
