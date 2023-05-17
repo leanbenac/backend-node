@@ -5,22 +5,21 @@ class ProductManager {
   }
 
   addProduct(product) {
-    // Validar que todos los campos sean obligatorios
-    if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock) {
-      console.error('Todos los campos son obligatorios');
-      return;
-    }
-    
-    // Validar que el código del producto no esté repetido
-    const codeExists = this.products.some((p) => p.code === product.code);
-    if (codeExists) {
-      console.error('El código de producto ya existe');
-      return;
-    }
+    // Valide los campos con operador nullish
+    !product.title ?? console.error('El campo "title" es obligatorio');
+    !product.description ?? console.error('El campo "description" es obligatorio');
+    !product.price ?? console.error('El campo "price" es obligatorio');
+    !product.thumbnail ?? console.error('El campo "thumbnail" es obligatorio');
+    !product.code ?? console.error('El campo "code" es obligatorio');
+    !product.stock ?? console.error('El campo "stock" es obligatorio');
 
-    // Agregar el producto al arreglo
-    product.id = this.nextId++; // Asignar id autoincrementable
-    this.products.push(product);
+    // Valide que el código del producto no esté repetido con operador ternario
+    const codeExists = this.products.some((p) => p.code === product.code);
+    codeExists
+      ? console.error("El código de producto ya existe")
+      : (product.id = this.nextId++); // Asignar id autoincrementable y agregar el producto al arreglo
+
+    !codeExists && this.products.push(product);
   }
 
   getProducts() {
@@ -29,11 +28,7 @@ class ProductManager {
 
   getProductById(id) {
     const product = this.products.find((p) => p.id === id);
-    if (product) {
-      return product;
-    } else {
-      console.error('Not found');
-    }
+    return product ?? console.error("Not found");
   }
 }
 
@@ -41,21 +36,22 @@ const manager = new ProductManager();
 
 // Agrego algunos productos al arreglo
 manager.addProduct({
-  title: 'Producto 1',
-  description: 'Descripción del producto 1',
+  title: "Producto 1",
+  description: "Descripción del producto 1",
   price: 10,
-  thumbnail: '/path/to/image1.png',
-  code: 'ABC123',
+  thumbnail: "/path/to/image1.png",
+  code: "ABC123",
   stock: 5,
 });
 manager.addProduct({
-  title: 'Producto 2',
-  description: 'Descripción del producto 2',
+  title: "Producto 2",
+  description: "Descripción del producto 2",
   price: 20,
-  thumbnail: '/path/to/image2.png',
-  code: 'DEF456',
+  thumbnail: "/path/to/image2.png",
+  code: "DEF456",
   stock: 10,
 });
+
 
 // Imprime el arreglo de productos
 console.log(manager.getProducts());
