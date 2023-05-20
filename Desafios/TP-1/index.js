@@ -5,13 +5,11 @@ class ProductManager {
   }
 
   addProduct(product) {
-    // Valide los campos con operador nullish
-    !product.title ?? console.error('El campo "title" es obligatorio');
-    !product.description ?? console.error('El campo "description" es obligatorio');
-    !product.price ?? console.error('El campo "price" es obligatorio');
-    !product.thumbnail ?? console.error('El campo "thumbnail" es obligatorio');
-    !product.code ?? console.error('El campo "code" es obligatorio');
-    !product.stock ?? console.error('El campo "stock" es obligatorio');
+ // Validar que todos los campos sean obligatorios
+ if (!product.title || !product.description || !product.price || !product.thumbnail || !product.code || !product.stock) {
+  console.error('Todos los campos son obligatorios');
+  return;
+}
 
     // Valide que el código del producto no esté repetido con operador ternario
     const codeExists = this.products.some((p) => p.code === product.code);
@@ -20,7 +18,7 @@ class ProductManager {
       : (product.id = this.nextId++); // Asignar id autoincrementable y agregar el producto al arreglo
 
     !codeExists && this.products.push(product);
-  }
+}
 
   getProducts() {
     return this.products;
@@ -28,8 +26,13 @@ class ProductManager {
 
   getProductById(id) {
     const product = this.products.find((p) => p.id === id);
-    return product ?? console.error("Not found");
+    if (product) {
+      return product;
+    } else {
+      throw new Error("Not found");
+    }
   }
+  
 }
 
 const manager = new ProductManager();
