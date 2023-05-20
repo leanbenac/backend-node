@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 const fecha = new Date().toLocaleDateString();
 const hora = new Date().toLocaleTimeString()
