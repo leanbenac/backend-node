@@ -1,6 +1,5 @@
 const fs = require('fs');
 
-// Definición de la clase ProductManager
 class ProductManager {
   constructor(path, filename) {
     this.path = path;
@@ -98,10 +97,13 @@ class ProductManager {
   }
 }
 
-// Crea una instancia de la clase ProductManager
+// Crear una instancia de la clase ProductManager
 const manager = new ProductManager('./', 'products.json');
 
-// Agrega productos de ejemplo
+// Verificar getProducts al inicio
+console.log('getProducts:', manager.getProducts());
+
+// Agregar un nuevo producto
 manager.addProduct({
   title: 'Producto 1',
   description: 'Descripción del producto 1',
@@ -119,4 +121,32 @@ manager.addProduct({
   code: 'DEF456',
   stock: 10,
 });
+
+// Verificar getProducts después de agregar un producto
+console.log('getProducts:', manager.getProducts());
+
+// Obtener un producto por su id
+try {
+  const productId = 1; // Reemplaza con el id correcto si es diferente
+  const product = manager.getProductById(productId);
+  console.log('getProductById:', product);
+} catch (error) {
+  console.error(error.message);
+}
+
+// Actualizar un producto existente
+try {
+  const productId = 1; // Reemplaza con el id correcto si es diferente
+  manager.updateProduct(productId, { price: 300, description: 'Producto actualizado' });
+} catch (error) {
+  console.error(error.message);
+}
+
+// Eliminar un producto existente
+try {
+  const productId = 1; // Reemplaza con el id correcto si es diferente
+  manager.deleteProduct(productId);
+} catch (error) {
+  console.error(error.message);
+}
 
