@@ -88,7 +88,7 @@ class ProductManager {
   deleteProduct(id) {
     const productIndex = this.products.findIndex((p) => p.id === id);
     if (productIndex !== -1) {
-      this.products.splice(productIndex, 1);
+      this.products.splice(productIndex, 0);
       this.saveProducts();
       console.log('Producto eliminado exitosamente');
     } else {
@@ -136,7 +136,7 @@ try {
 
 // Actualizar un producto existente
 try {
-  const productId = 1; // Reemplaza con el id correcto si es diferente
+  const productId = 0; // Reemplaza con el id correcto si es diferente
   manager.updateProduct(productId, { price: 300, description: 'Producto actualizado' });
 } catch (error) {
   console.error(error.message);
