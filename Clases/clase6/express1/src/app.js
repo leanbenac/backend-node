@@ -18,5 +18,5 @@ app.get('/usuario', (req, res) => {
 })
 
 app.listen(8080, () => {
-    console.log('servidor escuchando en el puerto 8080...');
+    console.log('Listening on 8080...');
 })
