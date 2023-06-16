@@ -1,43 +1,39 @@
 import fs from "fs";
 
 export default class CartManager {
-  constructor(path, filename) {
+  constructor(path) {
     this.path = path;
-    this.filename = filename;
     this.carts = [];
     this.nextId = 1; // Id autoincrementable
-    this.loadCarts();
+    (async () => {
+      await this.loadCarts();
+    })();
   }
 
-  loadCarts() {
+  async loadCarts() {
     try {
-      const filePath = `${this.path}/${this.filename}`;
-      const fileExists = fs.existsSync(filePath);
-
+      const fileExists = fs.existsSync(this.path);
       if (fileExists) {
-        const data = fs.readFileSync(filePath, "utf-8");
+        const data = await fs.promises.readFile(this.path, "utf-8");
         this.carts = JSON.parse(data);
         const lastCart = this.carts[this.carts.length - 1];
         this.nextId = lastCart ? lastCart.id + 1 : 1;
-        console.log("Carritos cargados exitosamente");
       } else {
         console.log(
           "El archivo no existe. Se creará uno nuevo al guardar el carrito."
         );
       }
     } catch (error) {
-      console.error("Error al cargar los carritos:", error);
+      console.log(error);
     }
   }
 
-  saveCarts() {
+  async saveCarts() {
     try {
-      const filePath = `${this.path}/${this.filename}`;
       const data = JSON.stringify(this.carts, null, 2);
-      fs.writeFileSync(filePath, data);
-      console.log("Carritos guardados exitosamente");
+      await fs.promises.writeFile(this.path, data);
     } catch (error) {
-      console.error("Error al guardar los carritos:", error);
+      console.log(error);
     }
   }
 
@@ -76,7 +72,7 @@ export default class CartManager {
   }
 }
 
-const manager = new CartManager("./", "cart.json");
+const manager = new CartManager("./cart.json");
 
 // Crear un nuevo carrito
 manager.createCart();
